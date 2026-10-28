@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>BSIT Student Portal</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        * { box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            margin: 0;
+            padding: 24px 16px;
+            background: #edf2e8;
+            color: #344233;
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+        }
+        center {
+            display: block;
+            max-width: 1100px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        h1 {
+            color: #3f6044;
+            text-shadow: 2px 3px 5px rgba(48, 75, 51, .25);
+            animation: fadeInDown .8s ease-out both;
+        }
+        h2 { color: #58785b; text-shadow: 1px 2px 3px rgba(55, 83, 58, .12);
+            animation: fadeInDown .8s ease-out both;
+        }
+        h3 { color: #49674d; }
+        hr { border: 0; border-top: 1px solid #c6d5c1; margin: 28px auto; }
+        a { color: #376847; text-underline-offset: 3px; }
+        a:hover, a:focus-visible { color: #1f432b; text-decoration-thickness: 2px; }
+        input, select, textarea {
+            max-width: 100%;
+            padding: 9px 10px;
+            border: 1px solid #b7c8b2;
+            border-radius: 7px;
+            font: inherit;
+            background: #fff;
+        }
+        input[type="submit"], input[type="reset"] {
+            cursor: pointer;
+            border: 0;
+            background: #58785b;
+            color: white;
+            padding: 10px 16px;
+            margin: 4px;
+            border-radius: 8px;
+            transition: background-color .25s ease, transform .25s ease, box-shadow .25s ease;
+        }
+        input[type="submit"]:hover, input[type="reset"]:hover {
+            background: #36583c;
+            transform: translateY(-2px) scale(1.03);
+            box-shadow: 0 5px 12px rgba(44, 71, 47, .2);
+        }
+        input:focus-visible, select:focus-visible, textarea:focus-visible, a:focus-visible {
+            outline: 3px solid #9abf8e;
+            outline-offset: 3px;
+        }
+        /* Feature cards: login, sign-up, student records, registration and links */
+        form, #students + table, #links + table {
+            display: inline-block;
+            max-width: 75%;
+            margin: 8px auto 18px;
+            padding: 18px;
+            background: #fbfcf9;
+            border: 1px solid #d4e0cf;
+            border-radius: 14px;
+            box-shadow: 0 5px 16px rgba(53, 79, 56, .12);
+            transition: transform .25s ease, box-shadow .25s ease, background-color .25s ease;
+        }
+        form:hover, #students + table:hover, #links + table:hover {
+            background: #ffffff;
+            box-shadow: 0 10px 24px rgba(53, 79, 56, .18);
+            transform: translateY(-3px);
+        }
+        table { border-collapse: collapse; }
+        #students + table { display: table; width: 90%; margin: 8px auto 18px; border-collapse: collapse; text-align: center;}
+        #students + table th { background: #dce8d6; color: #304e35; }
+        #students + table td, #students + table th { padding: 10px; }
+        #students + table tr:nth-child(even) { background: #f0f5ed; }
+        #registration + form { display: inline-block; }
+        textarea { width: 100%; }
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-14px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .student-photo {
+        width: 120px;
+        height: 120px;
+        object-fit: cover;
+        cursor: pointer;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .student-photo:hover {
+        transform: scale(1.08);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+        }
+    
+    
+    /* Fixed Header */
+    .page-header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 1000;
+        background: #edf2e8;
+        padding: 10px;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        box-sizing: border-box;
+    }
+
+    .page-header img {
+        width: 70px;
+        height: 70px;
+        object-fit: contain;
+    }
+
+    .page-header h1 {
+        font-size: 26px;
+        margin: 5px 0;
+    }
+
+    .page-header h2 {
+        font-size: 16px;
+        margin: 5px 0;
+    }
+
+/* Leave space for the fixed header */
+    body {
+        padding-top: 180px;
+    }
+
+/* Smaller header on phones */
+    @media screen and (max-width: 700px) {
+        body {
+            padding-top: 145px;
+        }
+
+        .page-header img {
+            width: 50px;
+            height: 50px;
+        }
+
+        .page-header h1 {
+            font-size: 20px;
+        }
+
+        .page-header h2 {
+            font-size: 13px;
+        }
+    }
+
+            
+    /* RESPONSIVE DESIGN FOR MOBILE PHONES */
+    @media screen and (max-width: 700px) {
+
+        body {
+            padding: 14px 10px;
+            font-size: 15px;
+        }
+
+        center {
+            width: 100%;
+        }
+
+        h1 {
+            font-size: 26px;
+            overflow-wrap: anywhere;
+        }
+
+        h2 {
+            font-size: 20px;
+            overflow-wrap: anywhere;
+        }
+
+        h3 {
+            font-size: 17px;
+        }
+
+    /* Navigation links */
+        a {
+            overflow-wrap: anywhere;
+        }
+
+        /* Forms */
+        form {
+            display: block;
+            width: 100%;
+            max-width: 100%;
+            padding: 12px;
+            box-sizing: border-box;
+        }
+
+        form table {
+            width: 100%;
+            max-width: 100%;
+            table-layout: fixed;
+        }
+
+        form td {
+            padding: 6px 4px;
+            overflow-wrap: anywhere;
+        }
+
+        form td input:not([type="radio"]):not([type="checkbox"]):not([type="submit"]):not([type="reset"]),
+        form td select,
+        form td textarea {
+            width: 100%;
+            max-width: 100%;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+
+        form textarea {
+            resize: vertical;
+        }
+
+    /* Student records: swipe sideways to view all columns */
+        #students + table {
+            display: block;
+            width: 100%;
+            max-width: 100%;
+            overflow-x: auto;
+            white-space: nowrap;
+            font-size: 12px;
+        }
+
+        #students + table th,
+        #students + table td {
+            padding: 7px;
+        }
+
+    /* Student profile pictures */
+        .student-photo {
+            width: 65px;
+            height: 65px;
+        }
+
+    /* Useful links table */
+        #links + table {
+            display: table;
+            width: 100%;
+            max-width: 100%;
+            table-layout: fixed;
+            overflow-wrap: anywhere;
+        }
+
+        hr {
+            max-width: 95%;
+        }
+
+    /* Buttons */
+        input[type="submit"],
+        input[type="reset"] {
+            max-width: 100%;
+            font-size: 14px;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+    }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: .01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: .01ms !important;
+                scroll-behavior: auto !important;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <center>
+
+        <!-- HEADER -->
+    
+    <div class="page-header">
+        <a href="https://www.ctu.edu.ph/" target="_blank">
+            <img src="bsit-logo.jpg"
+                alt="BSIT Department Logo">
+        </a>
+
+        <h1>BSIT STUDENT PORTAL</h1>
+        <h2>Cebu Technological University - Argao Campus</h2>
+    </div>
+        <hr width="80%">
+
+        <!-- NAVIGATION -->
+        <h3>Navigation</h3>
+
+        <a href="#home">Home</a> |
+        <a href="#login">Log In</a> |
+        <a href="#signup">Sign Up</a> |
+        <a href="#students">Students</a> |
+        <a href="#registration">Registration</a> |
+        <a href="#links">Useful Links</a>
+
+        <hr width="80%">
+
+        <!-- HOME -->
+        <h2 id="home">Welcome to the BSIT Student Portal</h2>
+
+        <p>
+            Welcome to the BSIT Student Portal of Cebu Technological University -
+            Argao Campus.
+        </p>
+
+        <p>
+            This portal allows students to view student information,
+            create an account, log in, and register.
+        </p>
+
+        <hr width="80%">
+
+        <!-- LOGIN -->
+        <h2 id="login">Student Log In</h2>
+
+        <form>
+
+            <table cellpadding="8">
+
+                <tr>
+                    <td align="right">
+                        <label>Email:</label>
+                    </td>
+
+                    <td>
+                        <input type="email"
+                               name="loginEmail"
+                               required>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td align="right">
+                        <label>Password:</label>
+                    </td>
+
+                    <td>
+                        <input type="password"
+                               name="loginPassword"
+                               required>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td></td>
+
+                    <td>
+                        <input type="submit" value="Log In">
+                        <input type="reset" value="Reset">
+                    </td>
+                </tr>
+
+            </table>
+
+        </form>
+
+        <p>
+            Don't have an account?
+            <a href="#signup">Sign Up</a>
+        </p>
+
+        <hr width="80%">
+
+        <!-- SIGN UP -->
+        <h2 id="signup">Student Sign Up</h2>
+
+        <form>
+
+            <table cellpadding="8">
+
+                <tr>
+                    <td align="right">
+                        <label>Full Name:</label>
+                    </td>
+
+                    <td>
+                        <input type="text"
+                               name="fullname"
+                               required>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td align="right">
+                        <label>Email:</label>
+                    </td>
+
+                    <td>
+                        <input type="email"
+                               name="email"
+                               required>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td align="right">
+                        <label>Password:</label>
+                    </td>
+
+                    <td>
+                        <input type="password"
+                               name="password"
+                               required>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td></td>
+
+                    <td>
+                        <input type="submit" value="Create Account">
+                        <input type="reset" value="Reset">
+                    </td>
+                </tr>
+
+            </table>
+
+        </form>
+
+        <p>
+            Already have an account?
+            <a href="#login">Log In</a>
+        </p>
+
+        <hr width="80%">
+
+        <!-- STUDENT INFORMATION -->
+        <h2 id="students">Student Records</h2>
+
+        <table border="1"
+               cellpadding="10"
+               cellspacing="0"
+               width="80%">
+
+            <tr>
+                <th>Profile Image</th>
+                <th>Student ID</th>
+                <th>Full Name</th>
+                <th>Program</th>
+                <th>Year Level</th>
+                <th>Email</th>
+            </tr>
+
+            <tr>
+                 <td>
+                    <a href="cath.jpg" target="_blank">
+                        <img src="cath.jpg" 
+                            alt="Catherine G. Amaba" 
+                            class="student-photo"
+                            width="80"
+                            height="80">
+                    </a>
+                </td>
+                <td>1233511</td>
+                <td>Catherine G. Amaba</td>
+                <td>BSIT</td>
+                <td>1st Year</td>
+                <td>
+                    <a href="mailto:amaba@gmail.com">
+                        amaba@gmail.com
+                    </a>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <a href="chiza.jpg" target="_blank">
+                        <img src="chiza.jpg" 
+                            alt="Chiza Centino" 
+                            class="student-photo"
+                            width="80"
+                            height="80">
+                    </a>
+        
+                </td>
+
+                <td>1239233</td>
+                <td>Chiza Fritzy Centino</td>
+                <td>BSIT</td>
+                <td>2nd Year</td>
+                <td>
+                    <a href="mailto:centino@gmail.com">
+                        centino@gmail.com
+                    </a>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <a href="jy.jpg" target="_blank">
+                        <img src="jy.jpg" 
+                            alt="Jymieca Gutierez" 
+                            class="student-photo"
+                            width="80"
+                            height="80">
+                    </a>
+        
+                </td>
+                <td>1239584</td>
+                <td>Jymieca Guitierez</td>
+                <td>BSIT</td>
+                <td>2nd Year</td>
+                <td>
+                    <a href="mailto:gutierez@gmail.com">
+                        gutierez@gmail.com
+                    </a>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <a href="shy.jpg" target="_blank">
+                        <img src="shy.jpg" 
+                            alt="Shiaena Villarin" 
+                            class="student-photo"
+                            width="80"
+                            height="80">
+                    </a>
+        
+                </td>
+                <td>1231394</td>
+                <td>Shiaena R. Villarin</td>
+                <td>BSIT</td>
+                <td>3rd Year</td>
+                <td>
+                    <a href="mailto:villarin@gmail.com">
+                        villarin@gmail.com
+                    </a>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <a href="earl.jpg" target="_blank">
+                        <img src="earl.jpg" 
+                            alt="Earl Villarba" 
+                            class="student-photo"
+                            width="80"
+                            height="80">
+                    </a>
+        
+                </td>
+                <td>1230876</td>
+                <td>Earl Villarba</td>
+                <td>BSIT</td>
+                <td>4th Year</td>
+                <td>
+                    <a href="mailto:villarba@gmail.com">
+                        villarba@gmail.com
+                    </a>
+                </td>
+            </tr>
+
+        </table>
+
+        <hr width="80%">
+
+        <!-- REGISTRATION FORM -->
+        <h2 id="registration">Student Registration Form</h2>
+
+        <form>
+
+            <table cellpadding="8">
+
+                <!-- FULL NAME -->
+                <tr>
+                    <td align="right">
+                        <label>Full Name:</label>
+                    </td>
+
+                    <td>
+                        <input type="text"
+                               name="fullname"
+                               placeholder="Enter full name"
+                               required>
+                    </td>
+                </tr>
+
+                <!-- EMAIL -->
+                <tr>
+                    <td align="right">
+                        <label>Email:</label>
+                    </td>
+
+                    <td>
+                        <input type="email"
+                               name="email"
+                               placeholder="example@email.com"
+                               required>
+                    </td>
+                </tr>
+
+                <!-- PASSWORD -->
+                <tr>
+                    <td align="right">
+                        <label>Password:</label>
+                    </td>
+
+                    <td>
+                        <input type="password"
+                               name="password"
+                               required>
+                    </td>
+                </tr>
+
+                <!-- AGE -->
+                <tr>
+                    <td align="right">
+                        <label>Age:</label>
+                    </td>
+
+                    <td>
+                        <input type="number"
+                               name="age"
+                               min="15"
+                               max="100"
+                               required>
+                    </td>
+                </tr>
+
+                <!-- BIRTHDATE -->
+                <tr>
+                    <td align="right">
+                        <label>Birthdate:</label>
+                    </td>
+
+                    <td>
+                        <input type="date"
+                               name="birthdate"
+                               required>
+                    </td>
+                </tr>
+
+                <!-- MOBILE NUMBER -->
+                <tr>
+                    <td align="right">
+                        <label>Mobile Number:</label>
+                    </td>
+
+                    <td>
+                        <input type="tel"
+                               name="mobile"
+                               placeholder="09XXXXXXXXX"
+                               required>
+                    </td>
+                </tr>
+
+                <!-- PROGRAM -->
+                <tr>
+                    <td align="right">
+                        <label>Program:</label>
+                    </td>
+
+                    <td>
+                        <select name="program" required>
+
+                            <option value="">
+                                -- Select Program --
+                            </option>
+
+                            <option value="BSIT">
+                                BSIT
+                            </option>
+
+                            <option value="BSCS">
+                                BSCS
+                            </option>
+
+                            <option value="BSIS">
+                                BSIS
+                            </option>
+
+                        </select>
+                    </td>
+                </tr>
+
+                <!-- YEAR LEVEL -->
+                <tr>
+                    <td align="right">
+                        <label>Year Level:</label>
+                    </td>
+
+                    <td>
+
+                        <input type="radio"
+                               name="year"
+                               value="1st Year"
+                               required>
+                        1st Year
+
+                        <br>
+
+                        <input type="radio"
+                               name="year"
+                               value="2nd Year">
+                        2nd Year
+
+                        <br>
+
+                        <input type="radio"
+                               name="year"
+                               value="3rd Year">
+                        3rd Year
+
+                        <br>
+
+                        <input type="radio"
+                               name="year"
+                               value="4th Year">
+                        4th Year
+
+                    </td>
+                </tr>
+
+                <!-- PROGRAMMING SKILLS -->
+                <tr>
+                    <td align="right">
+                        <label>Programming Skills:</label>
+                    </td>
+
+                    <td>
+
+                        <input type="checkbox"
+                               name="skills"
+                               value="HTML">
+                        HTML
+
+                        <br>
+
+                        <input type="checkbox"
+                               name="skills"
+                               value="CSS">
+                        CSS
+
+                        <br>
+
+                        <input type="checkbox"
+                               name="skills"
+                               value="JavaScript">
+                        JavaScript
+
+                        <br>
+
+                        <input type="checkbox"
+                               name="skills"
+                               value="Java">
+                        Java
+
+                        <br>
+
+                        <input type="checkbox"
+                               name="skills"
+                               value="Python">
+                        Python
+
+                    </td>
+                </tr>
+
+                <!-- ADDRESS / MESSAGE -->
+                <tr>
+                    <td align="right" valign="top">
+                        <label>Address / Message:</label>
+                    </td>
+
+                    <td>
+                        <textarea name="address"
+                                  rows="5"
+                                  cols="40"
+                                  placeholder="Enter your address or message"
+                                  required></textarea>
+                    </td>
+                </tr>
+
+                <!-- BUTTONS -->
+                <tr>
+                    <td></td>
+
+                    <td>
+                        <input type="submit"
+                               value="Submit Registration">
+
+                        <input type="reset"
+                               value="Reset">
+                    </td>
+                </tr>
+
+            </table>
+
+        </form>
+
+        <hr width="80%">
+
+        <!-- USEFUL LINKS -->
+        <h2 id="links">Navigation / Useful Links</h2>
+
+        <table cellpadding="8">
+
+            <tr>
+                <td>
+                    <a href="https://www.ctu.edu.ph/"
+                       target="_blank">
+                        Cebu Technological University
+                    </a>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <a href="https://www.youtube.com/@BroCodez"
+                        target="_blank">
+                        Bro Code YouTube 
+                    </a>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <a href="https://www.w3schools.com/"
+                        target="_blank">
+                        W3Schools
+                    </a>
+                </td>
+            </tr>
+
+        </table>
+
+        <hr width="80%">
+
+        <!-- FOOTER -->
+        <p>
+            <b>BSIT Student Portal</b>
+        </p>
+
+        <p>
+            Cebu Technological University - Argao Campus
+        </p>
+
+        <p>
+            &copy; 2026
+        </p>
+
+    </center>
+
+</body>
+</html>
